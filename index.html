@@ -34,12 +34,8 @@
     button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
     
-    /* =========================================================
-       BLOCO DO MENU (Home)
-       ========================================================= */
     .app-menu {
-      max-width: 880px;
-      margin: 0 auto;
+      max-width: 880px; margin: 0 auto;
       padding: max(14px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
       display: block;
     }
@@ -60,7 +56,6 @@
     .brand-name { font-weight: 800; font-size: 1.02rem; letter-spacing: -.01em; line-height: 1.15; }
     .brand-subtitle { color: var(--muted); font-size: .72rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .spacer { flex: 1; }
-    
     .icon-button {
       display: grid; place-items: center; width: 42px; height: 42px;
       border: 1px solid var(--line); border-radius: 12px; color: var(--text-dim);
@@ -69,7 +64,6 @@
     .icon-button svg { width: 20px; height: 20px; }
     .icon-button:hover { background: var(--panel-hover); border-color: var(--line-strong); color: var(--text); }
     .icon-button:active { transform: scale(.96); }
-
     .quick-new {
       display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 14px;
       border-radius: 12px; border: 1px solid var(--accent); background: var(--accent);
@@ -80,7 +74,6 @@
     .quick-new:hover { filter: brightness(1.05); }
     .quick-new:active { transform: scale(.97); }
     @media (max-width: 520px) { .quick-new span { display: none; } .quick-new { padding: 0 12px; width: 42px; justify-content: center; } }
-
     .notice {
       display: none; margin: 0 0 16px; padding: 12px 14px 12px 44px; position: relative;
       border-radius: 12px; border: 1px solid #3b7559; background: #16281f; color: #d9ffea;
@@ -95,17 +88,14 @@
     .notice.show { display: block; }
     .notice.error { border-color: #7a4444; background: #2a1a1d; color: #ffdede; }
     @keyframes notice-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
     .hero { padding: 20px 0 22px; }
     .eyebrow { color: var(--accent); text-transform: uppercase; font-weight: 800; letter-spacing: .14em; font-size: .68rem; }
     h1 { font-size: clamp(1.55rem, 5.2vw, 2.15rem); line-height: 1.08; letter-spacing: -.035em; margin: 8px 0; text-wrap: balance; }
     .intro { color: var(--muted); line-height: 1.5; margin: 0; max-width: 44rem; font-size: .92rem; text-wrap: pretty; }
-
     .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 12px; }
     .section-heading h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0; font-weight: 800; }
     .section-heading span { font-size: .76rem; color: var(--muted-2); font-variant-numeric: tabular-nums; }
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    
     .action-card {
       display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%;
       min-height: 104px; padding: 14px; color: var(--text);
@@ -119,7 +109,6 @@
     .action-card .action-title { font-size: .9rem; }
     .action-card .action-desc { color: var(--muted); opacity: 1; font-size: .76rem; }
     .wide-card { grid-column: 1 / -1; min-height: 78px; align-items: center; }
-    
     .action-icon {
       width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center;
       border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); color: var(--accent);
@@ -127,7 +116,6 @@
     .action-icon svg { width: 21px; height: 21px; }
     .action-title { display: block; font-weight: 750; font-size: 1rem; letter-spacing: -.005em; }
     .action-desc { display: block; font-size: .8rem; opacity: .8; margin-top: 3px; line-height: 1.35; }
-
     .recent-section { margin-top: 26px; }
     .recent-list { display: grid; gap: 8px; }
     .empty-state { border: 1px dashed var(--line-strong); background: rgba(26,30,38,.6); border-radius: var(--radius); padding: 26px 18px; text-align: center; }
@@ -135,7 +123,6 @@
     .empty-state .empty-icon svg { width: 22px; height: 22px; }
     .empty-state strong { display: block; margin-top: 12px; font-size: .9rem; }
     .empty-state p { color: var(--muted); font-size: .8rem; margin: 5px auto 0; line-height: 1.45; max-width: 26rem; text-wrap: pretty; }
-    
     .recent-item { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 13px; transition: background .15s var(--ease), border-color .15s var(--ease); }
     .recent-item:hover { background: var(--panel-hover); border-color: var(--line-strong); }
     .recent-item .thumb { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--accent); }
@@ -146,12 +133,8 @@
     .small-button { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 9px; padding: 7px 11px; font-size: .78rem; font-weight: 650; transition: background .15s var(--ease), border-color .15s var(--ease), transform .12s var(--ease); }
     .small-button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
     .small-button:active { transform: scale(.97); }
-
     footer { text-align: center; color: var(--muted-2); font-size: .72rem; margin: 28px 0 4px; line-height: 1.5; }
-
-    /* =========================================================
-       CSS DOS DIALOGS (Modais)
-       ========================================================= */
+    
     dialog { width: min(100% - 24px, 480px); padding: 0; color: var(--text); background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); animation: dialog-in .22s var(--ease); }
     dialog::backdrop { background: rgba(5,7,10,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     @keyframes dialog-in { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -177,7 +160,7 @@
     .setting-row small { display: block; color: var(--muted); margin-top: 3px; line-height: 1.4; font-size: .78rem; }
     .setting-row input[type=checkbox] { accent-color: var(--accent); width: 20px; height: 20px; flex-shrink: 0; }
     .key-hint { color: var(--muted-2); font-size: .74rem; line-height: 1.55; margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: rgba(13,16,21,.6); border: 1px solid var(--line); }
-
+    
     @media (max-width: 430px) {
       .app-menu { padding-left: 13px; padding-right: 13px; }
       .topbar { margin-left: -13px; margin-right: -13px; padding-left: 13px; padding-right: 13px; }
@@ -200,7 +183,7 @@
 <body>
 
   <!-- =========================================================
-       BLOCO DO MENU (Estrutura HTML)
+       BLOCO DO MENU
        ========================================================= -->
   <main class="app-menu" id="viewHome">
     <div class="topbar">
@@ -261,7 +244,7 @@
     <footer>Protótipo de interface · Salvamento e exportação serão feitos dentro do editor.</footer>
   </main>
 
-  <!-- DIALOGS -->
+  <!-- DIALOGS DO MENU -->
   <dialog id="newProjectDialog">
     <form id="newProjectForm" class="dialog-inner">
       <div class="dialog-head">
@@ -416,7 +399,7 @@
         dialog.addEventListener('cancel', e => { e.preventDefault(); closeDialog(dialog); });
       });
 
-      // ⚠️ ESTA É A LINHA QUE JÁ ESTÁ PRONTA PARA CHAMAR O MAPEAMENTO
+      // ⚠️ AQUI ESTÁ A PONTE PARA O MAPEAMENTO
       $('openMappingButton').addEventListener('click', () => {
         if (window.ChartForge && window.ChartForge.openMapping) {
           window.ChartForge.openMapping();
@@ -524,7 +507,7 @@
     })();
   </script>
   <!-- =========================================================
-     BLOCO DE MAPEAMENTO (Com Mapeamento Automático)
+     BLOCO DE MAPEAMENTO (Completo e Corrigido)
      ========================================================= -->
 <style>
   .map-view {
@@ -576,7 +559,7 @@
   .map-view .gamepad-status.connected { color: var(--text-dim); }
   
   .map-view .pad-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; width: 100%; max-width: 460px; background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 30px 20px; margin-top: 10px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); align-items: start; }
-  .map-view .pad-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; transition: transform .12s var(--ease); user-select: none; }
+  .map-view .pad-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; transition: transform .12s var(--ease); user-select: none; padding: 0; }
   .map-view .pad-btn:active { transform: scale(0.92); }
   .map-view .btn-circle { width: 56px; height: 56px; border-radius: 50%; background: var(--panel-2); border: 2px solid var(--line-strong); display: grid; place-items: center; font-size: 1.2rem; font-weight: 800; color: var(--text); transition: all .18s var(--ease); box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.05); position: relative; }
   .map-view .btn-circle.yellow { color: #facc15; border-color: #facc15; }
@@ -600,10 +583,24 @@
   .map-view .guide-center .btn-circle { width: 44px; height: 44px; border-color: var(--muted); color: var(--muted); }
   .map-view .guide-center .btn-circle svg { width: 24px; height: 24px; fill: currentColor; }
 
+  /* NOVO: Botões L3 e R3 separados visualmente */
+  .map-view .stick-wrapper { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .map-view .btn-l3, .map-view .btn-r3 {
+    width: 44px; height: 24px; border-radius: 6px; font-size: 0.7rem; font-weight: 800;
+    padding: 0; color: var(--text-dim); background: var(--panel-2);
+    border: 1px solid var(--line-strong);
+    display: grid; place-items: center;
+    transition: border-color .15s var(--ease), color .15s var(--ease), background .15s var(--ease);
+  }
+  .map-view .btn-l3:hover, .map-view .btn-r3:hover { border-color: var(--accent); color: var(--accent); }
+  .map-view .btn-l3.listening, .map-view .btn-r3.listening { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
   /* Anel de progresso */
   .map-view .pad-btn.mapped .btn-circle { border-color: var(--accent); box-shadow: 0 0 15px rgba(101,230,165,0.4), inset 0 0 10px rgba(101,230,165,0.2); }
   .map-view .pad-btn.active .btn-circle { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 20px rgba(101,230,165,0.6); }
-  .map-view .pad-btn.listening .btn-circle { border-color: var(--text); }
+  
+  .map-view .pad-btn.listening .btn-circle, .map-view .btn-l3.listening, .map-view .btn-r3.listening { border-color: var(--text); }
+  
   .map-view .pad-btn.listening .btn-circle::before {
     content: '';
     position: absolute;
@@ -625,7 +622,7 @@
   .map-view .summary-row .value { color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace; }
   .map-view .summary-row .value.empty { color: var(--muted-2); font-weight: 400; font-family: inherit; opacity: 0.4; }
 
-  /* Estilo dos botões de mapeamento automático */
+  /* Botão de mapeamento automático */
   .map-view .auto-map-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--accent); background: rgba(101,230,165,0.1); color: var(--accent); font-weight: 650; font-size: .85rem; transition: background .15s var(--ease); margin-bottom: 12px; }
   .map-view .auto-map-btn:hover { background: rgba(101,230,165,0.2); }
   .map-view .auto-map-btn svg { width: 16px; height: 16px; }
@@ -677,12 +674,8 @@
 
   <div id="panelController" class="map-panel">
     <div class="pad-wrap">
-      
-      <!-- BOTÃO DE MAPEAMENTO AUTOMÁTICO -->
       <button class="auto-map-btn" id="autoMapButton" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         Mapear automaticamente (XInput)
       </button>
 
@@ -737,11 +730,19 @@
             <div></div>
           </div>
         </div>
+        
+        <!-- Base: Analógicos e L3/R3 -->
         <div class="grid-bottom">
-          <button class="pad-btn" data-action="ls"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+          <div class="stick-wrapper">
+            <button class="pad-btn" data-action="ls"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+            <button type="button" class="pad-btn btn-l3" data-action="l3">L3</button>
+          </div>
           <button class="pad-btn" data-action="select"><div class="btn-circle" style="width: 30px; height: 30px; font-size: 0.8rem; border-color: var(--muted);">◁</div></button>
           <button class="pad-btn" data-action="start"><div class="btn-circle" style="width: 30px; height: 30px; font-size: 0.8rem; border-color: var(--muted);">▷</div></button>
-          <button class="pad-btn" data-action="rs"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+          <div class="stick-wrapper">
+            <button class="pad-btn" data-action="rs"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+            <button type="button" class="pad-btn btn-r3" data-action="r3">R3</button>
+          </div>
         </div>
       </div>
       
@@ -750,8 +751,7 @@
   </div>
 </main>
 
-<!-- DIALOG DE MAPEAMENTO AUTOMÁTICO -->
-<dialog id="autoMapDialog" style="padding:0; border:1px solid var(--line-strong); background:var(--panel); border-radius:20px; color:var(--text); width:min(100% - 24px, 480px);">
+<dialog id="autoMapDialog">
   <div style="padding:22px;">
     <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:6px;">
       <span style="width:44px; height:44px; flex:0 0 44px; display:grid; place-items:center; border-radius:12px; background:var(--panel-2); border:1px solid var(--line); color:var(--accent);">
@@ -782,11 +782,10 @@
       { id: 'dpadUp', label: 'D-Pad ↑' }, { id: 'dpadDown', label: 'D-Pad ↓' },
       { id: 'dpadLeft', label: 'D-Pad ←' }, { id: 'dpadRight', label: 'D-Pad →' },
       { id: 'start', label: 'Start' }, { id: 'select', label: 'Select' },
-      { id: 'ls', label: 'Analógico Esquerdo' }, { id: 'rs', label: 'Analógico Direito' },
-      { id: 'l3', label: 'L3' }, { id: 'r3', label: 'R3' }, { id: 'home', label: 'Home' }
+      { id: 'ls', label: 'Analógico Esquerdo (Eixo)' }, { id: 'rs', label: 'Analógico Direito (Eixo)' },
+      { id: 'l3', label: 'L3 (Clique Esq.)' }, { id: 'r3', label: 'R3 (Clique Dir.)' }, { id: 'home', label: 'Home' }
     ];
 
-    // Mapeamento PADRÃO XInput (o que vai ser aplicado no auto-map)
     const DEFAULT_GAMEPAD = {
       a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, lt: 6, rt: 7,
       select: 8, start: 9, ls: 10, rs: 11,
@@ -799,6 +798,7 @@
     let activeGamepadIndex = null;
     let gamepadRAF = null;
     let lastButtonStates = {};
+    let lastAxisStates = { 0: 0, 1: 0, 2: 0, 3: 0 };
     let gamepadPollingStarted = false;
     
     let guideTimer = null;
@@ -864,7 +864,6 @@
       startControllerMapping();
     });
 
-    // --- Aba Teclado ---
     function renderKeyboardBindings() {
       const list = $('keyboardBindingList');
       const kb = bindings.keyboard || {};
@@ -924,7 +923,6 @@
       renderKeyboardBindings();
     });
 
-    // --- Controle (Gamepad) ---
     function setGamepadStatus(text, connected) {
       const el = $('gamepadStatus');
       if (!el) return;
@@ -936,7 +934,6 @@
       activeGamepadIndex = e.gamepad.index;
       setGamepadStatus(`Conectado: ${e.gamepad.id.split('(')[0].trim()}`, true);
       startGamepadPolling();
-      // Atualiza a lista de dispositivos se o dialog estiver aberto
       if ($('autoMapDialog').open) renderDeviceList();
     });
 
@@ -972,6 +969,13 @@
             if (pressed && !was) handleGamepadPress(i);
             lastButtonStates[i] = pressed;
           });
+          
+          pad.axes.forEach((axisValue, axisIndex) => {
+            const moved = Math.abs(axisValue) > 0.5;
+            const wasMoved = lastAxisStates[axisIndex] || false;
+            if (moved && !wasMoved) handleAxisMove(axisIndex, axisValue);
+            lastAxisStates[axisIndex] = moved;
+          });
         }
         gamepadRAF = requestAnimationFrame(loop);
       };
@@ -990,8 +994,10 @@
       renderMappedSummary();
     }
 
-    document.querySelectorAll('#viewMapping .pad-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+    // Configurar o clique em QUALQUER botão da tela (incluindo L3 e R3)
+    document.querySelectorAll('#viewMapping .pad-btn, #viewMapping .btn-l3, #viewMapping .btn-r3').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const actionId = btn.dataset.action;
         if (!actionId) return;
         
@@ -1002,7 +1008,7 @@
 
         cancelTimer();
 
-        document.querySelectorAll('#viewMapping .pad-btn').forEach(b => b.classList.remove('listening'));
+        document.querySelectorAll('#viewMapping .pad-btn, #viewMapping .btn-l3, #viewMapping .btn-r3').forEach(b => b.classList.remove('listening'));
         selectedActionId = actionId;
         isListening = true;
         btn.classList.add('listening');
@@ -1011,7 +1017,12 @@
         if (physicalBtn) {
           $('padStep').textContent = 'Mapeando';
           $('padPrompt').textContent = `Aguardando: ${physicalBtn.label}`;
-          $('padHint').textContent = 'Aperte o botão físico agora.';
+          
+          if (actionId === 'ls' || actionId === 'rs') {
+            $('padHint').textContent = 'Mova o analógico em qualquer direção.';
+          } else {
+            $('padHint').textContent = 'Aperte o botão físico agora.';
+          }
         }
 
         startCountdown(actionId);
@@ -1020,7 +1031,7 @@
 
     function startCountdown(actionId) {
       guideTimeLeft = 3;
-      const btn = document.querySelector(`#viewMapping .pad-btn[data-action="${actionId}"]`);
+      const btn = document.querySelector(`#viewMapping [data-action="${actionId}"]`);
       
       clearInterval(guideTimer);
       guideTimer = setInterval(() => {
@@ -1043,7 +1054,7 @@
       clearInterval(guideTimer);
       isListening = false;
       selectedActionId = null;
-      document.querySelectorAll('#viewMapping .pad-btn').forEach(b => b.classList.remove('listening'));
+      document.querySelectorAll('#viewMapping .pad-btn, #viewMapping .btn-l3, #viewMapping .btn-r3').forEach(b => b.classList.remove('listening'));
       $('padStep').textContent = 'Pronto';
       $('padPrompt').textContent = 'Toque no botão na tela';
       $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
@@ -1056,7 +1067,7 @@
       saveBindings();
       renderMappedSummary();
       
-      const btn = document.querySelector(`#viewMapping .pad-btn[data-action="${selectedActionId}"]`);
+      const btn = document.querySelector(`#viewMapping [data-action="${selectedActionId}"]`);
       if (btn) {
          btn.classList.remove('listening');
          btn.classList.add('active');
@@ -1069,6 +1080,37 @@
       
       $('padStep').textContent = 'Salvo!';
       $('padPrompt').textContent = 'Botão mapeado com sucesso!';
+      $('padHint').textContent = 'Escolha outro botão na tela ou aguarde.';
+      setTimeout(() => {
+        if (!isListening) {
+          $('padStep').textContent = 'Pronto';
+          $('padPrompt').textContent = 'Toque no botão na tela';
+          $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+        }
+      }, 1500);
+    }
+
+    function handleAxisMove(axisIndex, axisValue) {
+      if (!isListening || !selectedActionId) return;
+      if (selectedActionId !== 'ls' && selectedActionId !== 'rs') return;
+      
+      bindings.gamepad[selectedActionId] = 'axis_' + axisIndex;
+      saveBindings();
+      renderMappedSummary();
+      
+      const btn = document.querySelector(`#viewMapping [data-action="${selectedActionId}"]`);
+      if (btn) {
+         btn.classList.remove('listening');
+         btn.classList.add('active');
+         setTimeout(() => btn.classList.remove('active'), 300);
+      }
+      
+      clearInterval(guideTimer);
+      isListening = false;
+      selectedActionId = null;
+      
+      $('padStep').textContent = 'Salvo!';
+      $('padPrompt').textContent = 'Analógico mapeado com sucesso!';
       $('padHint').textContent = 'Escolha outro botão na tela ou aguarde.';
       setTimeout(() => {
         if (!isListening) {
@@ -1092,7 +1134,17 @@
       list.innerHTML = PHYSICAL_BUTTONS.map(btn => {
         const gamepadIndex = bindings.gamepad[btn.id];
         const has = gamepadIndex !== undefined && gamepadIndex !== null && gamepadIndex !== -1;
-        const rightName = has ? (gamepadNames[gamepadIndex] || `Botão ${gamepadIndex}`) : '—';
+        
+        let rightName = '—';
+        if (has) {
+          if (typeof gamepadIndex === 'string' && gamepadIndex.startsWith('axis_')) {
+            const axisNum = gamepadIndex.replace('axis_', '');
+            rightName = `Eixo ${axisNum}`;
+          } else {
+            rightName = gamepadNames[gamepadIndex] || `Botão ${gamepadIndex}`;
+          }
+        }
+        
         return `<div class="summary-row">
           <span class="label">${btn.label}</span>
           <span class="value ${has ? '' : 'empty'}">${rightName}</span>
@@ -1100,13 +1152,9 @@
       }).join('');
     }
 
-    // --- MAPEAMENTO AUTOMÁTICO ---
-    
     function isXInputCompatible(gamepadId) {
-      // Identifica controles Xbox / XInput pelo ID do gamepad
       const id = gamepadId.toLowerCase();
-      return id.includes('xbox') || id.includes('xinput') || 
-             id.includes('microsoft') || id.includes('xinput');
+      return id.includes('xbox') || id.includes('xinput') || id.includes('microsoft');
     }
 
     function renderDeviceList() {
@@ -1114,10 +1162,7 @@
       const pads = getAllGamepads();
       
       if (!pads.length) {
-        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:.85rem;">
-          Nenhum controle detectado.<br>
-          Conecte um controle e aperte um botão para detectar.
-        </div>`;
+        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:.85rem;">Nenhum controle detectado.<br>Conecte um controle e aperte um botão para detectar.</div>`;
         return;
       }
 
@@ -1128,33 +1173,21 @@
           <div class="device-item">
             <div class="device-info">
               <div class="device-name">${name}</div>
-              <span class="device-badge ${compatible ? 'xinput' : 'other'}">
-                ${compatible ? 'XInput compatível' : 'Compatível (Genérico)'}
-              </span>
+              <span class="device-badge ${compatible ? 'xinput' : 'other'}">${compatible ? 'XInput compatível' : 'Compatível (Genérico)'}</span>
             </div>
-            <button type="button" data-auto-map="${pad.index}">
-              Aplicar
-            </button>
+            <button type="button" data-auto-map="${pad.index}">Aplicar</button>
           </div>`;
       }).join('');
     }
 
-    // Abre o dialog
     $('autoMapButton').addEventListener('click', () => {
       renderDeviceList();
       $('autoMapDialog').showModal();
     });
 
-    // Fecha o dialog
-    $('closeAutoMapDialog').addEventListener('click', () => {
-      $('autoMapDialog').close();
-    });
+    $('closeAutoMapDialog').addEventListener('click', () => $('autoMapDialog').close());
+    $('autoMapDialog').addEventListener('click', e => { if (e.target === $('autoMapDialog')) $('autoMapDialog').close(); });
 
-    $('autoMapDialog').addEventListener('click', e => {
-      if (e.target === $('autoMapDialog')) $('autoMapDialog').close();
-    });
-
-    // Clique em "Aplicar" em um dispositivo
     $('deviceList').addEventListener('click', e => {
       const btn = e.target.closest('[data-auto-map]');
       if (!btn) return;
@@ -1163,7 +1196,6 @@
       const pad = getAllGamepads().find(p => p.index === deviceIndex);
       if (!pad) return;
 
-      // Aplica o mapeamento padrão XInput
       bindings.gamepad = { ...DEFAULT_GAMEPAD };
       saveBindings();
       renderMappedSummary();
@@ -1174,7 +1206,6 @@
       $('padPrompt').textContent = `Controle "${pad.id.split('(')[0].trim()}" configurado`;
       $('padHint').textContent = 'Todos os botões foram mapeados automaticamente.';
       
-      // Feedback visual rápido nos botões da tela
       document.querySelectorAll('#viewMapping .pad-btn').forEach((b, i) => {
         setTimeout(() => {
           b.classList.add('active');
@@ -1192,8 +1223,6 @@
     startControllerMapping();
   })();
 </script>
-<!-- =========================================================
-     BLOCO DE MAPEAMENTO (Fim)
-     ========================================================= -->
+
 </body>
-</html>
+        </html>
