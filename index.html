@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1116">
+  <title>ChartForge — Menu</title>
+  <style>
+    /* =========================================================
+       CSS GLOBAL
+       ========================================================= */
+    :root {
+      color-scheme: dark;
+      --bg: #0f1116; --panel: #1a1e26; --panel-2: #222734;
+      --panel-hover: #262c39; --line: #2b313d; --line-strong: #3a4150;
+      --text: #f2f4f8; --text-dim: #d6dae2; --muted: #9aa3b2;
+      --muted-2: #7a8494; --accent: #65e6a5; --accent-hover: #7df0b5;
+      --accent-ink: #0c2318; --danger: #ff8b8b; --radius: 16px;
+      --radius-lg: 20px; --shadow-md: 0 6px 20px rgba(0,0,0,.35);
+      --shadow-lg: 0 24px 80px rgba(0,0,0,.55);
+      --ease: cubic-bezier(.2,.7,.2,1);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; min-height: 100vh;
+      background: radial-gradient(ellipse 800px 400px at 90% -10%, rgba(101,230,165,.10), transparent 60%), var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.5;
+    }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+    
+    /* =========================================================
+       BLOCO DO MENU (Home)
+       ========================================================= */
+    .app-menu {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+      display: block;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; margin: 0 -16px 8px;
+      background: linear-gradient(to bottom, rgba(15,17,22,.94), rgba(15,17,22,.78) 70%, transparent);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center;
+      border-radius: 12px; background: linear-gradient(180deg, #2a3140, #1f242f);
+      color: var(--accent); border: 1px solid var(--line-strong);
+    }
+    .brand-mark svg { width: 22px; height: 22px; }
+    .brand-text { min-width: 0; }
+    .brand-name { font-weight: 800; font-size: 1.02rem; letter-spacing: -.01em; line-height: 1.15; }
+    .brand-subtitle { color: var(--muted); font-size: .72rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .spacer { flex: 1; }
+    
+    .icon-button {
+      display: grid; place-items: center; width: 42px; height: 42px;
+      border: 1px solid var(--line); border-radius: 12px; color: var(--text-dim);
+      background: var(--panel); transition: background .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease), transform .12s var(--ease);
+    }
+    .icon-button svg { width: 20px; height: 20px; }
+    .icon-button:hover { background: var(--panel-hover); border-color: var(--line-strong); color: var(--text); }
+    .icon-button:active { transform: scale(.96); }
+
+    .quick-new {
+      display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 14px;
+      border-radius: 12px; border: 1px solid var(--accent); background: var(--accent);
+      color: var(--accent-ink); font-weight: 750; font-size: .86rem;
+      transition: filter .15s var(--ease), transform .12s var(--ease);
+    }
+    .quick-new svg { width: 16px; height: 16px; }
+    .quick-new:hover { filter: brightness(1.05); }
+    .quick-new:active { transform: scale(.97); }
+    @media (max-width: 520px) { .quick-new span { display: none; } .quick-new { padding: 0 12px; width: 42px; justify-content: center; } }
+
+    .notice {
+      display: none; margin: 0 0 16px; padding: 12px 14px 12px 44px; position: relative;
+      border-radius: 12px; border: 1px solid #3b7559; background: #16281f; color: #d9ffea;
+      font-size: .85rem; line-height: 1.45; animation: notice-in .25s var(--ease);
+    }
+    .notice::before {
+      content: ""; position: absolute; left: 14px; top: 50%; width: 18px; height: 18px;
+      transform: translateY(-50%); background: currentColor; opacity: .85;
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>") center/contain no-repeat;
+              mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>") center/contain no-repeat;
+    }
+    .notice.show { display: block; }
+    .notice.error { border-color: #7a4444; background: #2a1a1d; color: #ffdede; }
+    @keyframes notice-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero { padding: 20px 0 22px; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; font-weight: 800; letter-spacing: .14em; font-size: .68rem; }
+    h1 { font-size: clamp(1.55rem, 5.2vw, 2.15rem); line-height: 1.08; letter-spacing: -.035em; margin: 8px 0; text-wrap: balance; }
+    .intro { color: var(--muted); line-height: 1.5; margin: 0; max-width: 44rem; font-size: .92rem; text-wrap: pretty; }
+
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 12px; }
+    .section-heading h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0; font-weight: 800; }
+    .section-heading span { font-size: .76rem; color: var(--muted-2); font-variant-numeric: tabular-nums; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    
+    .action-card {
+      display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%;
+      min-height: 104px; padding: 14px; color: var(--text);
+      background: linear-gradient(180deg, var(--panel), #171a21);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+      transition: background .15s var(--ease), border-color .15s var(--ease), transform .12s var(--ease), box-shadow .2s var(--ease);
+    }
+    .action-card:hover { background: linear-gradient(180deg, var(--panel-hover), #1c2029); border-color: var(--line-strong); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), var(--shadow-md); }
+    .action-card:active { transform: scale(.99); }
+    .action-card .action-title { font-size: .9rem; }
+    .action-card .action-desc { color: var(--muted); opacity: 1; font-size: .76rem; }
+    .wide-card { grid-column: 1 / -1; min-height: 78px; align-items: center; }
+    
+    .action-icon {
+      width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center;
+      border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); color: var(--accent);
+    }
+    .action-icon svg { width: 21px; height: 21px; }
+    .action-title { display: block; font-weight: 750; font-size: 1rem; letter-spacing: -.005em; }
+    .action-desc { display: block; font-size: .8rem; opacity: .8; margin-top: 3px; line-height: 1.35; }
+
+    .recent-section { margin-top: 26px; }
+    .recent-list { display: grid; gap: 8px; }
+    .empty-state { border: 1px dashed var(--line-strong); background: rgba(26,30,38,.6); border-radius: var(--radius); padding: 26px 18px; text-align: center; }
+    .empty-state .empty-icon { width: 44px; height: 44px; margin: 0 auto; display: grid; place-items: center; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
+    .empty-state .empty-icon svg { width: 22px; height: 22px; }
+    .empty-state strong { display: block; margin-top: 12px; font-size: .9rem; }
+    .empty-state p { color: var(--muted); font-size: .8rem; margin: 5px auto 0; line-height: 1.45; max-width: 26rem; text-wrap: pretty; }
+    
+    .recent-item { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 13px; transition: background .15s var(--ease), border-color .15s var(--ease); }
+    .recent-item:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+    .recent-item .thumb { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--accent); }
+    .recent-item .thumb svg { width: 19px; height: 19px; }
+    .recent-item .details { min-width: 0; flex: 1; }
+    .recent-item .details strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .9rem; }
+    .recent-item .details span { display: block; color: var(--muted); font-size: .74rem; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .small-button { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 9px; padding: 7px 11px; font-size: .78rem; font-weight: 650; transition: background .15s var(--ease), border-color .15s var(--ease), transform .12s var(--ease); }
+    .small-button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+    .small-button:active { transform: scale(.97); }
+
+    footer { text-align: center; color: var(--muted-2); font-size: .72rem; margin: 28px 0 4px; line-height: 1.5; }
+
+    /* =========================================================
+       CSS DOS DIALOGS (Modais)
+       ========================================================= */
+    dialog { width: min(100% - 24px, 480px); padding: 0; color: var(--text); background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); animation: dialog-in .22s var(--ease); }
+    dialog::backdrop { background: rgba(5,7,10,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    @keyframes dialog-in { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .dialog-inner { padding: 22px; }
+    .dialog-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+    .dialog-head h2 { margin: 0; font-size: 1.15rem; letter-spacing: -.02em; }
+    .dialog-head p { color: var(--muted); font-size: .82rem; line-height: 1.5; margin: 6px 0 0; text-wrap: pretty; }
+    .field { display: grid; gap: 6px; margin: 14px 0; }
+    .field label { color: var(--text-dim); font-size: .8rem; font-weight: 650; }
+    .field input, .field select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 11px; background: #0d1015; color: var(--text); min-height: 44px; transition: border-color .15s var(--ease), background .15s var(--ease); }
+    .field input:hover, .field select:hover { border-color: var(--line-strong); }
+    .field input:focus, .field select:focus { border-color: var(--accent); background: #0a0d11; }
+    .field input::placeholder { color: var(--muted-2); }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+    .button { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 11px; padding: 10px 14px; font-weight: 650; font-size: .88rem; transition: background .15s var(--ease), border-color .15s var(--ease), transform .12s var(--ease); }
+    .button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+    .button:active { transform: scale(.98); }
+    .button.primary-button { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .button.primary-button:hover { filter: brightness(1.05); }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .setting-row:last-of-type { border-bottom: 0; }
+    .setting-row strong { font-size: .88rem; display: block; }
+    .setting-row small { display: block; color: var(--muted); margin-top: 3px; line-height: 1.4; font-size: .78rem; }
+    .setting-row input[type=checkbox] { accent-color: var(--accent); width: 20px; height: 20px; flex-shrink: 0; }
+    .key-hint { color: var(--muted-2); font-size: .74rem; line-height: 1.55; margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: rgba(13,16,21,.6); border: 1px solid var(--line); }
+
+    @media (max-width: 430px) {
+      .app-menu { padding-left: 13px; padding-right: 13px; }
+      .topbar { margin-left: -13px; margin-right: -13px; padding-left: 13px; padding-right: 13px; }
+      .grid { gap: 8px; }
+      .action-card { padding: 12px; gap: 9px; min-height: 100px; }
+      .action-icon { width: 38px; height: 38px; flex-basis: 38px; }
+      .action-icon svg { width: 18px; height: 18px; }
+      .action-card .action-title { font-size: .84rem; }
+      .action-card .action-desc { font-size: .72rem; }
+      .recent-item .thumb { display: none; }
+    }
+    @media (min-width: 650px) {
+      .app-menu { padding-left: 28px; padding-right: 28px; }
+      .topbar { margin-left: -28px; margin-right: -28px; padding-left: 28px; padding-right: 28px; }
+      .action-card { min-height: 112px; }
+      .wide-card { min-height: 84px; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       BLOCO DO MENU (Estrutura HTML)
+       ========================================================= -->
+  <main class="app-menu" id="viewHome">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">ChartForge</div>
+          <div class="brand-subtitle">Editor de charts · Clone Hero</div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <button class="quick-new" id="quickNewButton" type="button" aria-label="Nova chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Nova</span>
+      </button>
+      <button class="icon-button" id="settingsButton" type="button" aria-label="Configurações" title="Configurações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <section class="hero" aria-labelledby="welcomeTitle">
+      <div class="eyebrow">Seu estúdio de charts</div>
+      <h1 id="welcomeTitle">Vamos criar uma chart?</h1>
+      <p class="intro">Crie uma música do zero ou continue um projeto. A edição de notas e a reprodução serão construídas na próxima etapa.</p>
+    </section>
+
+    <section aria-labelledby="actionsHeading">
+      <div class="section-heading"><h2 id="actionsHeading">Começar</h2></div>
+      <div class="grid">
+        <button class="action-card" id="openProjectButton" type="button">
+          <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 10h18"/></svg></span>
+          <span><span class="action-title">Abrir projeto</span><span class="action-desc">Continuar um trabalho salvo</span></span>
+        </button>
+        <button class="action-card" id="importChartButton" type="button">
+          <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M12 18v-7m-3 3 3-3 3 3"/></svg></span>
+          <span><span class="action-title">Importar chart</span><span class="action-desc">Selecionar arquivo .chart</span></span>
+        </button>
+        <button class="action-card wide-card" id="importMusicButton" type="button">
+          <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+          <span><span class="action-title">Importar música</span><span class="action-desc">Escolher o áudio MP3</span></span>
+        </button>
+        <button class="action-card wide-card" id="openMappingButton" type="button" style="border-color:var(--line-strong)">
+          <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><circle cx="8" cy="12" r="1.6"/><circle cx="16" cy="10" r="1.4"/><circle cx="16" cy="14" r="1.4"/><path d="M12 6v-2M12 20v-2"/></svg></span>
+          <span><span class="action-title">Mapear botões</span><span class="action-desc">Configurar teclado e controle</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="recent-section" aria-labelledby="recentHeading">
+      <div class="section-heading"><h2 id="recentHeading">Projetos recentes</h2><span id="recentCount">0 projetos</span></div>
+      <div id="recentList" class="recent-list"></div>
+    </section>
+
+    <footer>Protótipo de interface · Salvamento e exportação serão feitos dentro do editor.</footer>
+  </main>
+
+  <!-- DIALOGS -->
+  <dialog id="newProjectDialog">
+    <form id="newProjectForm" class="dialog-inner">
+      <div class="dialog-head">
+        <span class="action-icon" style="color:var(--accent)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <div><h2>Nova chart</h2><p>Defina os dados iniciais. Isso cria um projeto de rascunho local.</p></div>
+      </div>
+      <div class="field"><label for="songTitle">Nome da música *</label><input id="songTitle" name="songTitle" required maxlength="120" placeholder="Ex.: Minha música"></div>
+      <div class="field"><label for="artistName">Artista (opcional)</label><input id="artistName" name="artistName" maxlength="120" placeholder="Nome do artista"></div>
+      <div class="field"><label for="difficulty">Dificuldade inicial</label><select id="difficulty" name="difficulty"><option value="Expert">Expert</option><option value="Hard">Hard</option><option value="Medium">Medium</option><option value="Easy">Easy</option></select></div>
+      <div class="dialog-actions">
+        <button type="button" class="button" data-close="newProjectDialog">Cancelar</button>
+        <button type="submit" class="button primary-button">Criar projeto</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <span class="action-icon" style="color:var(--accent)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <div><h2>Configurações</h2><p>Preferências iniciais do protótipo.</p></div>
+      </div>
+      <div class="setting-row"><div><strong>Interface compacta</strong><small>Reduz o espaçamento dos cartões.</small></div><input type="checkbox" id="compactSetting"></div>
+      <div class="setting-row"><div><strong>Confirmar antes de importar</strong><small>Mostrar uma confirmação antes de selecionar arquivos.</small></div><input type="checkbox" id="confirmSetting" checked></div>
+      <p class="key-hint">Os arquivos escolhidos são processados localmente nesta página. Este protótipo não envia seus arquivos para um servidor.</p>
+      <div class="dialog-actions"><button type="button" class="button primary-button" id="saveSettingsButton">Concluir</button></div>
+    </div>
+  </dialog>
+
+  <input id="projectFileInput" type="file" accept=".json,.cfproject,application/json" hidden>
+  <input id="chartFileInput" type="file" accept=".chart" hidden>
+  <input id="musicFileInput" type="file" accept=".mp3,audio/mpeg" hidden>
+
+  <script>
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const STORAGE_KEY = 'chartforge.home.projects.v1';
+      const SETTINGS_KEY = 'chartforge.settings.v1';
+
+      function showNotice(message, isError = false) {
+        const notice = $('notice');
+        if (!notice) return;
+        notice.textContent = message;
+        notice.classList.toggle('error', isError);
+        notice.classList.add('show');
+        window.clearTimeout(showNotice.timer);
+        showNotice.timer = window.setTimeout(() => notice.classList.remove('show'), 6500);
+      }
+      function escapeHTML(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+      }
+      function uid() {
+        return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+      function readProjects() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          return Array.isArray(parsed) ? parsed : [];
+        } catch { return []; }
+      }
+      function writeProjects(projects) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(projects.slice(0, 12))); return true; }
+        catch { showNotice('Não foi possível guardar a lista de projetos neste navegador.', true); return false; }
+      }
+      function saveProjectRecord(project) {
+        const projects = readProjects().filter(p => p.id !== project.id);
+        projects.unshift(project);
+        writeProjects(projects);
+        renderRecent();
+      }
+      function renderRecent() {
+        const projects = readProjects();
+        $('recentCount').textContent = `${projects.length} ${projects.length === 1 ? 'projeto' : 'projetos'}`;
+        const list = $('recentList');
+        if (!projects.length) {
+          list.innerHTML = `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M8 13h8M8 16h5"/></svg></div><strong>Nenhum projeto recente</strong><p>Quando você criar ou importar projetos, eles aparecerão aqui neste navegador.</p></div>`;
+          return;
+        }
+        list.innerHTML = projects.map(project => `
+          <div class="recent-item">
+            <span class="thumb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+            <div class="details">
+              <strong>${escapeHTML(project.title)}</strong>
+              <span>${escapeHTML(project.artist || 'Artista não informado')} · ${escapeHTML(project.difficulty || 'Expert')} · ${escapeHTML(project.updated || 'Projeto local')}</span>
+            </div>
+            <button class="small-button" type="button" data-open-project="${escapeHTML(project.id)}">Ver</button>
+          </div>
+        `).join('');
+      }
+
+      let lastFocused = null;
+      function openDialog(id) {
+        const dialog = $(id);
+        if (typeof dialog.showModal === 'function') {
+          lastFocused = document.activeElement;
+          dialog.showModal();
+        } else {
+          showNotice('Seu navegador não suporta esta janela.', true);
+        }
+      }
+      function closeDialog(dialog) {
+        dialog.close();
+        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+        lastFocused = null;
+      }
+
+      $('quickNewButton').addEventListener('click', () => {
+        $('newProjectForm').reset();
+        openDialog('newProjectDialog');
+        setTimeout(() => $('songTitle').focus(), 60);
+      });
+      $('newProjectForm').addEventListener('submit', event => {
+        event.preventDefault();
+        const title = $('songTitle').value.trim();
+        if (!title) return;
+        saveProjectRecord({
+          id: uid(), title,
+          artist: $('artistName').value.trim(),
+          difficulty: $('difficulty').value,
+          created: new Date().toISOString(),
+          updated: new Date().toLocaleDateString('pt-BR'),
+          status: 'draft', formatVersion: 1
+        });
+        closeDialog($('newProjectDialog'));
+        showNotice(`Projeto “${title}” criado como rascunho local.`);
+      });
+
+      $('settingsButton').addEventListener('click', () => openDialog('settingsDialog'));
+      $('saveSettingsButton').addEventListener('click', () => {
+        const compact = $('compactSetting').checked;
+        document.body.classList.toggle('compact', compact);
+        try {
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+            compact, confirmImport: $('confirmSetting').checked
+          }));
+        } catch {}
+        closeDialog($('settingsDialog'));
+        showNotice('Preferências aplicadas.');
+      });
+      try {
+        const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+        $('compactSetting').checked = !!s.compact;
+        $('confirmSetting').checked = s.confirmImport !== false;
+        document.body.classList.toggle('compact', !!s.compact);
+      } catch {}
+
+      document.querySelectorAll('[data-close]').forEach(btn => {
+        btn.addEventListener('click', () => closeDialog($(btn.dataset.close)));
+      });
+      document.querySelectorAll('dialog').forEach(dialog => {
+        dialog.addEventListener('click', e => { if (e.target === dialog) closeDialog(dialog); });
+        dialog.addEventListener('cancel', e => { e.preventDefault(); closeDialog(dialog); });
+      });
+
+      // ⚠️ ESTA É A LINHA QUE JÁ ESTÁ PRONTA PARA CHAMAR O MAPEAMENTO
+      $('openMappingButton').addEventListener('click', () => {
+        if (window.ChartForge && window.ChartForge.openMapping) {
+          window.ChartForge.openMapping();
+        } else {
+          showNotice('A tela de mapeamento não foi carregada.', true);
+        }
+      });
+
+      function askBeforeImport(kind) {
+        const messages = {
+          project: 'Selecione um arquivo de projeto JSON/.cfproject para importar.',
+          chart: 'Selecione um arquivo .chart para importar.',
+          music: 'Selecione um arquivo MP3 para importar.'
+        };
+        if ($('confirmSetting').checked && !window.confirm(messages[kind] + '\n\nContinuar?')) return;
+        const map = { project: 'projectFileInput', chart: 'chartFileInput', music: 'musicFileInput' };
+        $(map[kind]).click();
+      }
+      $('openProjectButton').addEventListener('click', () => askBeforeImport('project'));
+      $('importChartButton').addEventListener('click', () => askBeforeImport('chart'));
+      $('importMusicButton').addEventListener('click', () => askBeforeImport('music'));
+
+      $('projectFileInput').addEventListener('change', async event => {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+          const project = data.project || data;
+          if (!project || typeof project !== 'object' || !(project.title || project.name)) {
+            throw new Error('O arquivo não parece conter um projeto reconhecido.');
+          }
+          saveProjectRecord({
+            id: project.id || uid(),
+            title: String(project.title || project.name).slice(0, 120),
+            artist: String(project.artist || '').slice(0, 120),
+            difficulty: String(project.difficulty || 'Expert'),
+            updated: new Date().toLocaleDateString('pt-BR'),
+            status: 'imported', formatVersion: 1
+          });
+          showNotice(`Projeto “${project.title || project.name}” importado com sucesso.`);
+        } catch (error) {
+          showNotice(`Erro ao importar projeto: ${error.message || 'arquivo inválido'}`, true);
+        }
+      });
+
+      $('chartFileInput').addEventListener('change', async event => {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (!file) return;
+        if (!file.name.toLowerCase().endsWith('.chart')) {
+          showNotice('Por favor, selecione um arquivo com extensão .chart', true);
+          return;
+        }
+        try {
+          const content = await file.text();
+          if (!content.includes('[Song]') || !content.includes('[SyncTrack]')) {
+            throw new Error('Arquivo .chart inválido ou corrompido.');
+          }
+          const titleMatch = content.match(/^\s*Name\s*=\s*"([^"]*)"/m);
+          const artistMatch = content.match(/^\s*Artist\s*=\s*"([^"]*)"/m);
+          const title = titleMatch?.[1] || file.name.replace(/\.chart$/i, '');
+          saveProjectRecord({
+            id: uid(), title: title.slice(0, 120),
+            artist: (artistMatch?.[1] || '').slice(0, 120),
+            difficulty: 'Importada', updated: new Date().toLocaleDateString('pt-BR'),
+            status: 'chart-imported', sourceFileName: file.name, formatVersion: 1
+          });
+          showNotice(`Chart “${title}” importada com sucesso.`);
+        } catch (error) {
+          showNotice(`Erro ao importar chart: ${error.message || 'arquivo inválido'}`, true);
+        }
+      });
+
+      $('musicFileInput').addEventListener('change', async event => {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (!file) return;
+        if (!file.name.toLowerCase().endsWith('.mp3')) {
+          showNotice('Por favor, selecione um arquivo MP3.', true);
+          return;
+        }
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+        saveProjectRecord({
+          id: uid(), title: baseName.slice(0, 120),
+          artist: '', difficulty: 'Expert',
+          updated: new Date().toLocaleDateString('pt-BR'),
+          status: 'music-selected', sourceFileName: file.name,
+          sourceFileSize: file.size, formatVersion: 1
+        });
+        showNotice(`Música “${file.name}” importada com sucesso.`);
+      });
+
+      $('recentList').addEventListener('click', event => {
+        const button = event.target.closest('[data-open-project]');
+        if (!button) return;
+        const project = readProjects().find(p => p.id === button.dataset.openProject);
+        if (project) {
+          showNotice(`O editor para “${project.title}” será implementado na próxima etapa.`);
+        }
+      });
+
+      renderRecent();
+    })();
+  </script>
+  <!-- =========================================================
+     BLOCO DE MAPEAMENTO (Com Mapeamento Automático)
+     ========================================================= -->
+<style>
+  .map-view {
+    display: none;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: max(14px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+  }
+  .map-view.active { display: block; }
+
+  .map-view .map-header { display: flex; align-items: center; gap: 12px; padding: 8px 0 18px; }
+  .map-view .back-button { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--text-dim); transition: background .15s var(--ease); }
+  .map-view .back-button svg { width: 18px; height: 18px; }
+  .map-view .back-button:hover { background: var(--panel-hover); }
+  .map-view .eyebrow { color: var(--accent); text-transform: uppercase; font-weight: 800; letter-spacing: .14em; font-size: .65rem; }
+  .map-view h1 { font-size: 1.4rem; margin: 2px 0 0; }
+  
+  .map-view .segmented { display: inline-flex; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 2px; margin-bottom: 20px; }
+  .map-view .segmented button { border: 0; background: transparent; color: var(--muted); padding: 8px 16px; border-radius: 9px; font-size: .84rem; font-weight: 650; transition: background .15s var(--ease), color .15s var(--ease); }
+  .map-view .segmented button[aria-selected="true"] { background: var(--panel-2); color: var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); }
+  
+  .map-view .map-panel { display: none; }
+  .map-view .map-panel.active { display: block; }
+
+  /* Painel Teclado */
+  .map-view .binding-list { display: grid; gap: 8px; }
+  .map-view .binding-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; transition: border-color .15s var(--ease), background .15s var(--ease); }
+  .map-view .binding-row:hover { border-color: var(--line-strong); }
+  .map-view .binding-row .action-name { flex: 1; font-size: .9rem; font-weight: 650; }
+  .map-view .binding-row .keys { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .map-view .key-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; font-size: .78rem; color: var(--text-dim); font-family: ui-monospace, monospace; }
+  .map-view .key-chip .x { color: var(--muted-2); cursor: pointer; font-size: .9rem; line-height: 1; border: 0; background: transparent; padding: 0 0 0 2px; }
+  .map-view .key-chip .x:hover { color: var(--danger); }
+  .map-view .binding-row.listening { border-color: var(--accent); background: rgba(101,230,165,.06); }
+  .map-view .binding-row.listening .action-name { color: var(--accent); }
+  .map-view .binding-row .add-key { border: 1px dashed var(--line-strong); background: transparent; color: var(--muted); border-radius: 8px; padding: 4px 10px; font-size: .78rem; transition: border-color .15s var(--ease), color .15s var(--ease); }
+  .map-view .binding-row .add-key:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Painel Controle */
+  .map-view .pad-wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 10px 0 30px; }
+  .map-view .pad-instruction { text-align: center; max-width: 22rem; }
+  .map-view .pad-instruction .step { color: var(--accent); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .map-view .pad-instruction .prompt { font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; margin-top: 6px; line-height: 1.25; text-wrap: balance; }
+  .map-view .pad-instruction .prompt.done { color: var(--accent); }
+  .map-view .pad-instruction .hint { color: var(--muted); font-size: .84rem; margin-top: 8px; line-height: 1.5; }
+  .map-view .gamepad-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 20px; background: var(--panel); border: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
+  .map-view .gamepad-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted-2); }
+  .map-view .gamepad-status.connected .dot { background: var(--accent); box-shadow: 0 0 8px rgba(101,230,165,.6); }
+  .map-view .gamepad-status.connected { color: var(--text-dim); }
+  
+  .map-view .pad-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; width: 100%; max-width: 460px; background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 30px 20px; margin-top: 10px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); align-items: start; }
+  .map-view .pad-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; transition: transform .12s var(--ease); user-select: none; }
+  .map-view .pad-btn:active { transform: scale(0.92); }
+  .map-view .btn-circle { width: 56px; height: 56px; border-radius: 50%; background: var(--panel-2); border: 2px solid var(--line-strong); display: grid; place-items: center; font-size: 1.2rem; font-weight: 800; color: var(--text); transition: all .18s var(--ease); box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.05); position: relative; }
+  .map-view .btn-circle.yellow { color: #facc15; border-color: #facc15; }
+  .map-view .btn-circle.red { color: #f87171; border-color: #f87171; }
+  .map-view .btn-circle.blue { color: #60a5fa; border-color: #60a5fa; }
+  .map-view .btn-circle.green { color: #4ade80; border-color: #4ade80; }
+  
+  .map-view .grid-top { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: 0 10px; }
+  .map-view .grid-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: 0 10px; margin-top: 10px; align-items: center; }
+  .map-view .cluster { display: grid; gap: 6px; place-items: center; }
+  
+  .map-view .dpad-grid { display: grid; grid-template-columns: 28px 28px 28px; grid-template-rows: 28px 28px 28px; gap: 2px; }
+  .map-view .dpad-grid .btn-circle { width: 28px; height: 28px; border-radius: 6px; font-size: 0; border-width: 1px; background: var(--panel-2); border-color: var(--line-strong); box-shadow: none; }
+  .map-view .dpad-grid .btn-circle:hover { background: var(--panel-hover); }
+  .map-view .dpad-grid .active { background: var(--accent); border-color: var(--accent); }
+
+  .map-view .face-grid { display: grid; grid-template-columns: 50px 50px 50px; grid-template-rows: 50px 50px 50px; gap: 4px; place-items: center; }
+  .map-view .face-grid .btn-circle { width: 46px; height: 46px; }
+
+  .map-view .guide-center { align-self: center; margin-top: 10px; }
+  .map-view .guide-center .btn-circle { width: 44px; height: 44px; border-color: var(--muted); color: var(--muted); }
+  .map-view .guide-center .btn-circle svg { width: 24px; height: 24px; fill: currentColor; }
+
+  /* Anel de progresso */
+  .map-view .pad-btn.mapped .btn-circle { border-color: var(--accent); box-shadow: 0 0 15px rgba(101,230,165,0.4), inset 0 0 10px rgba(101,230,165,0.2); }
+  .map-view .pad-btn.active .btn-circle { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 20px rgba(101,230,165,0.6); }
+  .map-view .pad-btn.listening .btn-circle { border-color: var(--text); }
+  .map-view .pad-btn.listening .btn-circle::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) var(--progress, 0%), rgba(255,255,255,0.1) var(--progress, 0%));
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+    animation: countdown-progress 3s linear forwards;
+    pointer-events: none;
+  }
+  @property --progress { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+  @keyframes countdown-progress { from { --progress: 0%; } to { --progress: 100%; } }
+
+  /* Resumo */
+  .map-view .mapped-summary { width: 100%; max-width: 480px; display: grid; gap: 6px; margin-top: 4px; }
+  .map-view .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; font-size: .82rem; }
+  .map-view .summary-row .label { color: var(--muted); }
+  .map-view .summary-row .value { color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace; }
+  .map-view .summary-row .value.empty { color: var(--muted-2); font-weight: 400; font-family: inherit; opacity: 0.4; }
+
+  /* Estilo dos botões de mapeamento automático */
+  .map-view .auto-map-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--accent); background: rgba(101,230,165,0.1); color: var(--accent); font-weight: 650; font-size: .85rem; transition: background .15s var(--ease); margin-bottom: 12px; }
+  .map-view .auto-map-btn:hover { background: rgba(101,230,165,0.2); }
+  .map-view .auto-map-btn svg { width: 16px; height: 16px; }
+
+  /* Dialog de dispositivos */
+  dialog#autoMapDialog { width: min(100% - 24px, 480px); padding: 0; color: var(--text); background: var(--panel); border: 1px solid var(--line-strong); border-radius: 20px; box-shadow: 0 24px 80px rgba(0,0,0,.55); animation: dialog-in .22s var(--ease); }
+  dialog#autoMapDialog::backdrop { background: rgba(5,7,10,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  @keyframes dialog-in { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .device-list { display: grid; gap: 8px; margin-top: 12px; }
+  .device-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; transition: border-color .15s var(--ease); }
+  .device-item:hover { border-color: var(--line-strong); }
+  .device-item .device-info { flex: 1; min-width: 0; }
+  .device-item .device-name { font-weight: 650; font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .device-item .device-badge { display: inline-block; margin-top: 4px; padding: 2px 8px; border-radius: 6px; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .device-item .device-badge.xinput { background: rgba(101,230,165,0.15); color: var(--accent); }
+  .device-item .device-badge.other { background: rgba(154,163,178,0.15); color: var(--muted); }
+  .device-item button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: .78rem; flex-shrink: 0; }
+  .device-item button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  @media (max-width: 430px) {
+    .map-view { padding-left: 13px; padding-right: 13px; }
+    .map-view .pad-grid { padding: 20px 10px; gap: 12px; }
+  }
+  @media (min-width: 650px) {
+    .map-view { padding-left: 28px; padding-right: 28px; }
+  }
+</style>
+
+<main class="map-view" id="viewMapping">
+  <div class="map-header">
+    <button class="back-button" id="mappingBackButton" type="button" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div>
+      <div class="eyebrow">Entrada</div>
+      <h1>Mapeamento de botões</h1>
+    </div>
+  </div>
+
+  <div class="segmented" role="tablist">
+    <button id="tabKeyboard" role="tab" aria-selected="true">Teclado</button>
+    <button id="tabController" role="tab" aria-selected="false">Controle</button>
+  </div>
+
+  <div id="panelKeyboard" class="map-panel active">
+    <div class="binding-list" id="keyboardBindingList"></div>
+    <p style="color:var(--muted-2); font-size:.74rem; line-height:1.55; margin-top:16px; padding:10px 12px; border-radius:10px; background:rgba(13,16,21,.6); border:1px solid var(--line);">Clique em uma ação e pressione a tecla desejada. Você pode adicionar mais de uma tecla por ação.</p>
+  </div>
+
+  <div id="panelController" class="map-panel">
+    <div class="pad-wrap">
+      
+      <!-- BOTÃO DE MAPEAMENTO AUTOMÁTICO -->
+      <button class="auto-map-btn" id="autoMapButton" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Mapear automaticamente (XInput)
+      </button>
+
+      <div class="pad-instruction">
+        <div class="step" id="padStep">Pronto</div>
+        <div class="prompt" id="padPrompt">Toque no botão na tela</div>
+        <div class="hint" id="padHint">Depois aperte o botão físico correspondente no controle.</div>
+      </div>
+      <div class="gamepad-status" id="gamepadStatus">
+        <span class="dot"></span><span id="gamepadStatusText">Nenhum controle detectado</span>
+      </div>
+      
+      <div class="pad-grid" id="padSvg">
+        <div class="grid-top" style="margin-bottom: 10px;">
+          <button class="pad-btn" data-action="lt"><div class="btn-circle" style="width: 84px; height: 36px; border-radius: 18px; font-size: 0.85rem; background: var(--bg);">LT</div></button>
+          <button class="pad-btn" data-action="rt"><div class="btn-circle" style="width: 84px; height: 36px; border-radius: 18px; font-size: 0.85rem; background: var(--bg);">RT</div></button>
+        </div>
+        <div class="grid-top">
+          <button class="pad-btn" data-action="lb"><div class="btn-circle" style="width: 64px; height: 32px; border-radius: 16px; font-size: 0.85rem; border-color: var(--line-strong);">LB</div></button>
+          <button class="pad-btn" data-action="rb"><div class="btn-circle" style="width: 64px; height: 32px; border-radius: 16px; font-size: 0.85rem; border-color: var(--line-strong);">RB</div></button>
+        </div>
+        <div class="cluster">
+          <div class="dpad-grid">
+            <div></div>
+            <button class="pad-btn" data-action="dpadUp"><div class="btn-circle"></div></button>
+            <div></div>
+            <button class="pad-btn" data-action="dpadLeft"><div class="btn-circle"></div></button>
+            <div class="btn-circle" style="background: var(--line-strong); border-color: var(--line-strong);"></div>
+            <button class="pad-btn" data-action="dpadRight"><div class="btn-circle"></div></button>
+            <div></div>
+            <button class="pad-btn" data-action="dpadDown"><div class="btn-circle"></div></button>
+            <div></div>
+          </div>
+        </div>
+        <div class="cluster guide-center">
+          <button class="pad-btn" data-action="home">
+            <div class="btn-circle">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.25-4.27c.86-1.16 2.07-2.65 3.11-3.73-1.06-1.16-1.55-2.38-1.63-3.42-.04-.48-.03-.94-.01-1.35C7.27 8.42 6 10.08 6 12c0 1.39.4 2.69 1.09 3.79l-.34-1.06zm10.5 0l-.34 1.06C17.6 14.69 18 13.39 18 12c0-1.92-1.27-3.58-3.22-4.73.02.41.03.87-.01 1.35-.08 1.04-.57 2.26-1.63 3.42 1.04 1.08 2.25 2.57 3.11 3.73zM12 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            </div>
+          </button>
+        </div>
+        <div class="cluster">
+          <div class="face-grid">
+            <div></div>
+            <button class="pad-btn" data-action="y"><div class="btn-circle yellow">Y</div></button>
+            <div></div>
+            <button class="pad-btn" data-action="x"><div class="btn-circle blue">X</div></button>
+            <div></div>
+            <button class="pad-btn" data-action="b"><div class="btn-circle red">B</div></button>
+            <div></div>
+            <button class="pad-btn" data-action="a"><div class="btn-circle green">A</div></button>
+            <div></div>
+          </div>
+        </div>
+        <div class="grid-bottom">
+          <button class="pad-btn" data-action="ls"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+          <button class="pad-btn" data-action="select"><div class="btn-circle" style="width: 30px; height: 30px; font-size: 0.8rem; border-color: var(--muted);">◁</div></button>
+          <button class="pad-btn" data-action="start"><div class="btn-circle" style="width: 30px; height: 30px; font-size: 0.8rem; border-color: var(--muted);">▷</div></button>
+          <button class="pad-btn" data-action="rs"><div class="btn-circle" style="width: 60px; height: 60px; border: 4px solid var(--line-strong);"><div style="width: 24px; height: 24px; border-radius: 50%; background: var(--line-strong);"></div></div></button>
+        </div>
+      </div>
+      
+      <div class="mapped-summary" id="mappedSummary"></div>
+    </div>
+  </div>
+</main>
+
+<!-- DIALOG DE MAPEAMENTO AUTOMÁTICO -->
+<dialog id="autoMapDialog" style="padding:0; border:1px solid var(--line-strong); background:var(--panel); border-radius:20px; color:var(--text); width:min(100% - 24px, 480px);">
+  <div style="padding:22px;">
+    <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:6px;">
+      <span style="width:44px; height:44px; flex:0 0 44px; display:grid; place-items:center; border-radius:12px; background:var(--panel-2); border:1px solid var(--line); color:var(--accent);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:21px;height:21px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </span>
+      <div>
+        <h2 style="margin:0; font-size:1.15rem; letter-spacing:-.02em;">Mapeamento automático</h2>
+        <p style="margin:6px 0 0; color:var(--muted); font-size:.82rem; line-height:1.5;">Detectamos os seguintes controles conectados. Escolha um para aplicar o mapeamento padrão XInput.</p>
+      </div>
+    </div>
+
+    <div class="device-list" id="deviceList"></div>
+
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+      <button type="button" id="closeAutoMapDialog" style="border:1px solid var(--line); background:var(--panel-2); color:var(--text); border-radius:11px; padding:10px 14px; font-weight:650; font-size:.88rem;">Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const BINDINGS_KEY = 'chartforge.bindings.v1';
+    
+    const PHYSICAL_BUTTONS = [
+      { id: 'lt', label: 'LT' }, { id: 'lb', label: 'LB' }, { id: 'rb', label: 'RB' }, { id: 'rt', label: 'RT' },
+      { id: 'a', label: 'A' }, { id: 'b', label: 'B' }, { id: 'x', label: 'X' }, { id: 'y', label: 'Y' },
+      { id: 'dpadUp', label: 'D-Pad ↑' }, { id: 'dpadDown', label: 'D-Pad ↓' },
+      { id: 'dpadLeft', label: 'D-Pad ←' }, { id: 'dpadRight', label: 'D-Pad →' },
+      { id: 'start', label: 'Start' }, { id: 'select', label: 'Select' },
+      { id: 'ls', label: 'Analógico Esquerdo' }, { id: 'rs', label: 'Analógico Direito' },
+      { id: 'l3', label: 'L3' }, { id: 'r3', label: 'R3' }, { id: 'home', label: 'Home' }
+    ];
+
+    // Mapeamento PADRÃO XInput (o que vai ser aplicado no auto-map)
+    const DEFAULT_GAMEPAD = {
+      a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, lt: 6, rt: 7,
+      select: 8, start: 9, ls: 10, rs: 11,
+      dpadUp: 12, dpadDown: 13, dpadLeft: 14, dpadRight: 15,
+      home: 16, l3: 10, r3: 11
+    };
+
+    let bindings = loadBindings();
+    let listeningAction = null;
+    let activeGamepadIndex = null;
+    let gamepadRAF = null;
+    let lastButtonStates = {};
+    let gamepadPollingStarted = false;
+    
+    let guideTimer = null;
+    let guideTimeLeft = 3;
+    let selectedActionId = null;
+    let isListening = false;
+
+    function loadBindings() {
+      try {
+        const raw = localStorage.getItem(BINDINGS_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (!parsed.keyboard) parsed.keyboard = {};
+          if (!parsed.gamepad) parsed.gamepad = {};
+          return parsed;
+        }
+      } catch {}
+      return { keyboard: {}, gamepad: {} };
+    }
+
+    function saveBindings() {
+      try { localStorage.setItem(BINDINGS_KEY, JSON.stringify(bindings)); } catch {}
+    }
+
+    window.ChartForge = window.ChartForge || {};
+    window.ChartForge.openMapping = function() {
+      $('viewHome').style.display = 'none';
+      $('viewMapping').classList.add('active');
+      window.scrollTo(0, 0);
+      showTab('tabKeyboard');
+      renderKeyboardBindings();
+      renderMappedSummary();
+    };
+    
+    function closeMapping() {
+      $('viewMapping').classList.remove('active');
+      $('viewHome').style.display = 'block';
+      window.scrollTo(0, 0);
+      cancelTimer();
+    }
+
+    $('mappingBackButton').addEventListener('click', closeMapping);
+
+    function showTab(tabId) {
+      $('tabKeyboard').setAttribute('aria-selected', tabId === 'tabKeyboard');
+      $('tabController').setAttribute('aria-selected', tabId === 'tabController');
+      $('panelKeyboard').classList.toggle('active', tabId === 'tabKeyboard');
+      $('panelController').classList.toggle('active', tabId === 'tabController');
+    }
+
+    $('tabKeyboard').addEventListener('click', () => {
+      showTab('tabKeyboard');
+      renderKeyboardBindings();
+      cancelTimer();
+    });
+
+    $('tabController').addEventListener('click', () => {
+      showTab('tabController');
+      renderMappedSummary();
+      $('padStep').textContent = 'Pronto';
+      $('padPrompt').textContent = 'Toque no botão na tela';
+      $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+      startControllerMapping();
+    });
+
+    // --- Aba Teclado ---
+    function renderKeyboardBindings() {
+      const list = $('keyboardBindingList');
+      const kb = bindings.keyboard || {};
+      list.innerHTML = PHYSICAL_BUTTONS.map(btn => {
+        const keys = kb[btn.id] || [];
+        const chips = keys.map(code => `
+          <span class="key-chip" data-action="${btn.id}" data-code="${code}">
+            ${code}
+            <button class="x" type="button" data-remove="${code}" data-action="${btn.id}">×</button>
+          </span>`).join('');
+        return `
+          <div class="binding-row" data-row="${btn.id}">
+            <div class="action-name">${btn.label}</div>
+            <div class="keys">
+              ${chips}
+              <button class="add-key" type="button" data-add="${btn.id}">+ Tecla</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    $('keyboardBindingList').addEventListener('click', e => {
+      const remove = e.target.closest('[data-remove]');
+      if (remove) {
+        const action = remove.dataset.action;
+        const code = remove.dataset.remove;
+        bindings.keyboard[action] = (bindings.keyboard[action] || []).filter(k => k !== code);
+        saveBindings();
+        renderKeyboardBindings();
+        return;
+      }
+      const add = e.target.closest('[data-add]');
+      if (add) startListening(add.dataset.add);
+    });
+
+    function startListening(actionId) {
+      if (listeningAction) {
+        document.querySelectorAll('.binding-row.listening').forEach(r => r.classList.remove('listening'));
+      }
+      listeningAction = actionId;
+      const row = document.querySelector(`.binding-row[data-row="${actionId}"]`);
+      if (row) row.classList.add('listening');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (!listeningAction) return;
+      if (e.target.matches('input, textarea, select')) return;
+      e.preventDefault();
+      const code = e.code || e.key;
+      const list = bindings.keyboard[listeningAction] || [];
+      if (!list.includes(code)) {
+        bindings.keyboard[listeningAction] = [...list, code];
+        saveBindings();
+      }
+      listeningAction = null;
+      document.querySelectorAll('.binding-row.listening').forEach(r => r.classList.remove('listening'));
+      renderKeyboardBindings();
+    });
+
+    // --- Controle (Gamepad) ---
+    function setGamepadStatus(text, connected) {
+      const el = $('gamepadStatus');
+      if (!el) return;
+      $('gamepadStatusText').textContent = text;
+      el.classList.toggle('connected', !!connected);
+    }
+
+    window.addEventListener('gamepadconnected', e => {
+      activeGamepadIndex = e.gamepad.index;
+      setGamepadStatus(`Conectado: ${e.gamepad.id.split('(')[0].trim()}`, true);
+      startGamepadPolling();
+      // Atualiza a lista de dispositivos se o dialog estiver aberto
+      if ($('autoMapDialog').open) renderDeviceList();
+    });
+
+    window.addEventListener('gamepaddisconnected', e => {
+      if (e.gamepad.index === activeGamepadIndex) {
+        activeGamepadIndex = null;
+        setGamepadStatus('Nenhum controle detectado', false);
+      }
+      if ($('autoMapDialog').open) renderDeviceList();
+    });
+
+    function getGamepad() {
+      if (!navigator.getGamepads) return null;
+      const pads = navigator.getGamepads();
+      for (const p of pads) if (p && p.connected) return p;
+      return null;
+    }
+
+    function getAllGamepads() {
+      if (!navigator.getGamepads) return [];
+      return Array.from(navigator.getGamepads()).filter(p => p && p.connected);
+    }
+
+    function startGamepadPolling() {
+      if (gamepadPollingStarted) return;
+      gamepadPollingStarted = true;
+      const loop = () => {
+        const pad = getGamepad();
+        if (pad) {
+          pad.buttons.forEach((btn, i) => {
+            const pressed = btn.pressed || btn.value > 0.5;
+            const was = !!lastButtonStates[i];
+            if (pressed && !was) handleGamepadPress(i);
+            lastButtonStates[i] = pressed;
+          });
+        }
+        gamepadRAF = requestAnimationFrame(loop);
+      };
+      gamepadRAF = requestAnimationFrame(loop);
+    }
+
+    function startControllerMapping() {
+      const pad = getGamepad();
+      if (!pad) {
+        setGamepadStatus('Nenhum controle detectado', false);
+        return;
+      }
+      activeGamepadIndex = pad.index;
+      setGamepadStatus(`Conectado: ${pad.id.split('(')[0].trim()}`, true);
+      startGamepadPolling();
+      renderMappedSummary();
+    }
+
+    document.querySelectorAll('#viewMapping .pad-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const actionId = btn.dataset.action;
+        if (!actionId) return;
+        
+        if (selectedActionId === actionId) {
+          cancelTimer();
+          return;
+        }
+
+        cancelTimer();
+
+        document.querySelectorAll('#viewMapping .pad-btn').forEach(b => b.classList.remove('listening'));
+        selectedActionId = actionId;
+        isListening = true;
+        btn.classList.add('listening');
+        
+        const physicalBtn = PHYSICAL_BUTTONS.find(b => b.id === actionId);
+        if (physicalBtn) {
+          $('padStep').textContent = 'Mapeando';
+          $('padPrompt').textContent = `Aguardando: ${physicalBtn.label}`;
+          $('padHint').textContent = 'Aperte o botão físico agora.';
+        }
+
+        startCountdown(actionId);
+      });
+    });
+
+    function startCountdown(actionId) {
+      guideTimeLeft = 3;
+      const btn = document.querySelector(`#viewMapping .pad-btn[data-action="${actionId}"]`);
+      
+      clearInterval(guideTimer);
+      guideTimer = setInterval(() => {
+        guideTimeLeft--;
+        $('padHint').textContent = `Aperte o botão físico agora. (${guideTimeLeft}s)`;
+
+        if (guideTimeLeft <= 0) {
+          clearInterval(guideTimer);
+          isListening = false;
+          selectedActionId = null;
+          if (btn) btn.classList.remove('listening');
+          $('padStep').textContent = 'Tempo esgotado';
+          $('padPrompt').textContent = 'Toque no botão na tela';
+          $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+        }
+      }, 1000);
+    }
+
+    function cancelTimer() {
+      clearInterval(guideTimer);
+      isListening = false;
+      selectedActionId = null;
+      document.querySelectorAll('#viewMapping .pad-btn').forEach(b => b.classList.remove('listening'));
+      $('padStep').textContent = 'Pronto';
+      $('padPrompt').textContent = 'Toque no botão na tela';
+      $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+    }
+
+    function handleGamepadPress(index) {
+      if (!isListening || !selectedActionId) return;
+      
+      bindings.gamepad[selectedActionId] = index;
+      saveBindings();
+      renderMappedSummary();
+      
+      const btn = document.querySelector(`#viewMapping .pad-btn[data-action="${selectedActionId}"]`);
+      if (btn) {
+         btn.classList.remove('listening');
+         btn.classList.add('active');
+         setTimeout(() => btn.classList.remove('active'), 300);
+      }
+      
+      clearInterval(guideTimer);
+      isListening = false;
+      selectedActionId = null;
+      
+      $('padStep').textContent = 'Salvo!';
+      $('padPrompt').textContent = 'Botão mapeado com sucesso!';
+      $('padHint').textContent = 'Escolha outro botão na tela ou aguarde.';
+      setTimeout(() => {
+        if (!isListening) {
+          $('padStep').textContent = 'Pronto';
+          $('padPrompt').textContent = 'Toque no botão na tela';
+          $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+        }
+      }, 1500);
+    }
+
+    function renderMappedSummary() {
+      const list = $('mappedSummary');
+      if (!list) return;
+
+      const gamepadNames = [
+        '0 (A)', '1 (B)', '2 (X)', '3 (Y)', '4 (LB)', '5 (RB)', '6 (LT)', '7 (RT)',
+        '8 (View/Select)', '9 (Menu/Start)', '10 (L3/LS)', '11 (R3/RS)',
+        '12 (D-Pad ↑)', '13 (D-Pad ↓)', '14 (D-Pad ←)', '15 (D-Pad →)', '16 (Guide/Home)'
+      ];
+
+      list.innerHTML = PHYSICAL_BUTTONS.map(btn => {
+        const gamepadIndex = bindings.gamepad[btn.id];
+        const has = gamepadIndex !== undefined && gamepadIndex !== null && gamepadIndex !== -1;
+        const rightName = has ? (gamepadNames[gamepadIndex] || `Botão ${gamepadIndex}`) : '—';
+        return `<div class="summary-row">
+          <span class="label">${btn.label}</span>
+          <span class="value ${has ? '' : 'empty'}">${rightName}</span>
+        </div>`;
+      }).join('');
+    }
+
+    // --- MAPEAMENTO AUTOMÁTICO ---
+    
+    function isXInputCompatible(gamepadId) {
+      // Identifica controles Xbox / XInput pelo ID do gamepad
+      const id = gamepadId.toLowerCase();
+      return id.includes('xbox') || id.includes('xinput') || 
+             id.includes('microsoft') || id.includes('xinput');
+    }
+
+    function renderDeviceList() {
+      const list = $('deviceList');
+      const pads = getAllGamepads();
+      
+      if (!pads.length) {
+        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:.85rem;">
+          Nenhum controle detectado.<br>
+          Conecte um controle e aperte um botão para detectar.
+        </div>`;
+        return;
+      }
+
+      list.innerHTML = pads.map(pad => {
+        const compatible = isXInputCompatible(pad.id);
+        const name = pad.id.split('(')[0].trim();
+        return `
+          <div class="device-item">
+            <div class="device-info">
+              <div class="device-name">${name}</div>
+              <span class="device-badge ${compatible ? 'xinput' : 'other'}">
+                ${compatible ? 'XInput compatível' : 'Compatível (Genérico)'}
+              </span>
+            </div>
+            <button type="button" data-auto-map="${pad.index}">
+              Aplicar
+            </button>
+          </div>`;
+      }).join('');
+    }
+
+    // Abre o dialog
+    $('autoMapButton').addEventListener('click', () => {
+      renderDeviceList();
+      $('autoMapDialog').showModal();
+    });
+
+    // Fecha o dialog
+    $('closeAutoMapDialog').addEventListener('click', () => {
+      $('autoMapDialog').close();
+    });
+
+    $('autoMapDialog').addEventListener('click', e => {
+      if (e.target === $('autoMapDialog')) $('autoMapDialog').close();
+    });
+
+    // Clique em "Aplicar" em um dispositivo
+    $('deviceList').addEventListener('click', e => {
+      const btn = e.target.closest('[data-auto-map]');
+      if (!btn) return;
+      
+      const deviceIndex = parseInt(btn.dataset.autoMap);
+      const pad = getAllGamepads().find(p => p.index === deviceIndex);
+      if (!pad) return;
+
+      // Aplica o mapeamento padrão XInput
+      bindings.gamepad = { ...DEFAULT_GAMEPAD };
+      saveBindings();
+      renderMappedSummary();
+      
+      $('autoMapDialog').close();
+      
+      $('padStep').textContent = 'Mapeado!';
+      $('padPrompt').textContent = `Controle "${pad.id.split('(')[0].trim()}" configurado`;
+      $('padHint').textContent = 'Todos os botões foram mapeados automaticamente.';
+      
+      // Feedback visual rápido nos botões da tela
+      document.querySelectorAll('#viewMapping .pad-btn').forEach((b, i) => {
+        setTimeout(() => {
+          b.classList.add('active');
+          setTimeout(() => b.classList.remove('active'), 300);
+        }, i * 40);
+      });
+      
+      setTimeout(() => {
+        $('padStep').textContent = 'Pronto';
+        $('padPrompt').textContent = 'Toque no botão na tela';
+        $('padHint').textContent = 'Depois aperte o botão físico correspondente no controle.';
+      }, 3000);
+    });
+
+    startControllerMapping();
+  })();
+</script>
+<!-- =========================================================
+     BLOCO DE MAPEAMENTO (Fim)
+     ========================================================= -->
+</body>
+</html>
