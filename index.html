@@ -1223,6 +1223,146 @@
     startControllerMapping();
   })();
 </script>
+<!-- =========================================================
+     BLOCO DO PARSER DE CHART (.chart -> JSON em Segundos)
+     ========================================================= -->
+<script>
+  (() => {
+    window.ChartForge = window.ChartForge || {};
 
+    // Resolução padrão de ticks por batida no formato .chart
+    const TICKS_PER_BEAT = 192;
+
+    /**
+     * Função principal do Parser.
+     * Recebe o texto cru do arquivo .chart e devolve um objeto JSON.
+     */
+    window.ChartForge.parseChart = function(textoBruto) {
+      if (!textoBruto || typeof textoBruto !== 'string') {
+        throw new Error('O conteúdo da chart está vazio ou é inválido.');
+      }
+
+      const linhas = textoBruto.split(/\r?\n/);
+      
+      const chartData = {
+        metadata: {},
+        resolution: TICKS_PER_BEAT,
+        bpmEvents: [],
+        notes: [],      // Lista final com tempos em segundos
+        trackName: ''   // Ex: "ExpertSingle"
+      };
+
+      let secaoAtual = '';
+      let bpmAtual = 120; // BPM padrão caso não encontre
+      let offsetSegundos = 0;
+
+      // Expressões regulares para capturar os dados
+      const regexKeyValue = /^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$/;
+      const regexEvento = /^\s*(\d+)\s*=\s*([A-Za-z]+)\s+(\d+)(?:\s+(\d+))?/;
+
+      // --- Passo 1: Ler as linhas e extrair as seções ---
+      for (let i = 0; i < linhas.length; i++) {
+        const linha = linhas[i].trim();
+        if (!linha || linha.startsWith('//')) continue; // Ignora vazias e comentários
+
+        // Detecta mudança de seção (ex: [Song], [SyncTrack])
+        if (linha.startsWith('[') && linha.endsWith(']')) {
+          secaoAtual = linha.substring(1, linha.length - 1);
+          continue;
+        }
+
+        const matchKV = linha.match(regexKeyValue);
+        if (matchKV) {
+          const chave = matchKV[1];
+          let valor = matchKV[2].replace(/^"|"$/g, ''); // Remove aspas
+
+          if (secaoAtual === 'Song') {
+            if (chave === 'Resolution') {
+              chartData.resolution = parseInt(valor, 10) || TICKS_PER_BEAT;
+            } else if (chave === 'Offset') {
+              offsetSegundos = parseFloat(valor) || 0;
+            } else {
+              chartData.metadata[chave] = valor;
+            }
+          } else if (secaoAtual === 'SyncTrack') {
+            const matchEv = linha.match(regexEvento);
+            if (matchEv && matchEv[2] === 'B') { // Evento de BPM
+              const tick = parseInt(matchEv[1], 10);
+              const bpm = parseInt(matchEv[3], 10) / 1000; // O BPM no .chart é armazenado * 1000
+              chartData.bpmEvents.push({ tick, bpm });
+              if (chartData.bpmEvents.length === 1) bpmAtual = bpm; // Pega o primeiro BPM
+            }
+          } else if (secaoAtual.endsWith('Single')) {
+            // Se for uma track de guitarra (ExpertSingle, HardSingle, etc.)
+            if (!chartData.trackName) chartData.trackName = secaoAtual; // Pega a primeira que achar
+            
+            // Se já achamos uma track de guitarra, só processamos ela
+            if (secaoAtual === chartData.trackName) {
+              const matchEv = linha.match(regexEvento);
+              if (matchEv && matchEv[2] === 'N') { // Evento de Nota
+                const tick = parseInt(matchEv[1], 10);
+                const fret = parseInt(matchEv[3], 10); // 0=Verde, 1=Vermelho, 2=Amarelo, 3=Azul, 4=Laranja
+                const sustento = matchEv[4] ? parseInt(matchEv[4], 10) : 0;
+                
+                chartData.notes.push({
+                  tick,
+                  fret,
+                  sustainLength: sustento,
+                  time: 0,        // Será calculado abaixo
+                  sustainTime: 0  // Será calculado abaixo
+                });
+              }
+            }
+          }
+        }
+      }
+
+      // --- Passo 2: Ordenar os BPMs e notas por tick ---
+      chartData.bpmEvents.sort((a, b) => a.tick - b.tick);
+      chartData.notes.sort((a, b) => a.tick - b.tick);
+
+      // --- Passo 3: Converter Ticks para Segundos ---
+      // Fórmula: Segundos = Offset + (Soma dos tempos de cada batida até o tick)
+      
+      function tickToSeconds(tick) {
+        let segundos = offsetSegundos;
+        let tickAnterior = 0;
+        let bpmAnterior = 120; // BPM base
+
+        for (let i = 0; i < chartData.bpmEvents.length; i++) {
+          const ev = chartData.bpmEvents[i];
+          if (ev.tick > tick) break; // Se o evento é depois da nota, para.
+
+          // Calcula o tempo do trecho entre o último evento e este evento
+          const ticksNoTrecho = ev.tick - tickAnterior;
+          const segundosNoTrecho = (ticksNoTrecho / chartData.resolution) * (60 / bpmAnterior);
+          segundos += segundosNoTrecho;
+
+          tickAnterior = ev.tick;
+          bpmAnterior = ev.bpm;
+        }
+
+        // Calcula o tempo do último BPM até o tick da nota
+        const ticksFinais = tick - tickAnterior;
+        const segundosFinais = (ticksFinais / chartData.resolution) * (60 / bpmAnterior);
+        
+        return segundos + segundosFinais;
+      }
+
+      // Aplica a conversão em todas as notas
+      chartData.notes.forEach(nota => {
+        nota.time = tickToSeconds(nota.tick);
+        if (nota.sustainLength > 0) {
+          nota.sustainTime = tickToSeconds(nota.tick + nota.sustainLength) - nota.time;
+        }
+      });
+
+      // Remove a lista de BPMs e resolution do objeto final para limpar, mas guarda para referência se precisar
+      chartData.duration = chartData.notes.length > 0 ? chartData.notes[chartData.notes.length - 1].time : 0;
+      
+      return chartData;
+    };
+  })();
+</script>
 </body>
         </html>
